@@ -45,9 +45,15 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
         src={videoSrc}
         playsInline
         preload="auto"
+        disablePictureInPicture
+        controls={false}
+        onPause={(e) => {
+          const v = e.currentTarget;
+          if (!v.ended) v.play().catch(() => {});
+        }}
         onEnded={onFinish}
         onError={onFinish}
-        className="h-[100dvh] w-full object-cover md:object-contain"
+        className="pointer-events-none h-[100dvh] w-full object-cover md:object-contain"
       />
     </motion.div>
   );
