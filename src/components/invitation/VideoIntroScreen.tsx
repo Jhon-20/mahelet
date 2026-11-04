@@ -47,7 +47,7 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
         preload="auto"
         onEnded={onFinish}
         onError={onFinish}
-        className="w-full h-full object-contain"
+        className="h-[100dvh] w-full object-cover md:object-contain"
       />
     </motion.div>
   );
