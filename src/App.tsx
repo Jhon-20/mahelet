@@ -41,6 +41,7 @@ export const App: React.FC = () => {
       <AnimatePresence>
         {!introDone && (
           <VideoIntroScreen
+            config={INVITATION_CONFIG}
             videoSrc="/video/video-intro.mp4"
             onFinish={() => setIntroDone(true)}
           />
