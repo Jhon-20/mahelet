@@ -25,11 +25,24 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
     });
 
     // Primer toque activa el sonido si quedó silenciado.
+    // Usamos touchend/click (gestos válidos en móvil). Si activar el sonido
+    // pausa el video, se reanuda al instante.
     const unmute = () => {
-      if (video.muted) video.muted = false;
+      if (!video.muted) return;
+      video.muted = false;
+      if (video.paused && !video.ended) {
+        video.play().catch(() => {
+          video.muted = true;
+          video.play().catch(() => {});
+        });
+      }
     };
-    window.addEventListener('pointerdown', unmute, { once: true });
-    return () => window.removeEventListener('pointerdown', unmute);
+    window.addEventListener('touchend', unmute, { once: true });
+    window.addEventListener('click', unmute, { once: true });
+    return () => {
+      window.removeEventListener('touchend', unmute);
+      window.removeEventListener('click', unmute);
+    };
   }, [onFinish]);
 
   return (
@@ -49,7 +62,11 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
         controls={false}
         onPause={(e) => {
           const v = e.currentTarget;
-          if (!v.ended) v.play().catch(() => {});
+          if (v.ended) return;
+          v.play().catch(() => {
+            v.muted = true;
+            v.play().catch(() => {});
+          });
         }}
         onEnded={onFinish}
         onError={onFinish}
