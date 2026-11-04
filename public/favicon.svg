@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="softGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFF9F2" />
+      <stop offset="100%" stop-color="#F6C8D4" />
+    </radialGradient>
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E9A7B8" />
+      <stop offset="100%" stop-color="#C96F8C" />
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="url(#softGlow)" stroke="#E9A7B8" stroke-width="2"/>
+  
+  <!-- Bunny ears -->
+  <path d="M 40 45 C 34 22, 28 12, 38 12 C 45 12, 45 28, 44 44 Z" fill="#FFF9F2" stroke="#E9A7B8" stroke-width="1.8"/>
+  <path d="M 39 40 C 35 25, 33 18, 38 17 C 42 17, 42 27, 41 39 Z" fill="#F6C8D4"/>
+
+  <path d="M 60 45 C 66 22, 72 12, 62 12 C 55 12, 55 28, 56 44 Z" fill="#FFF9F2" stroke="#E9A7B8" stroke-width="1.8"/>
+  <path d="M 61 40 C 65 25, 67 18, 62 17 C 58 17, 58 27, 59 39 Z" fill="#F6C8D4"/>
+
+  <!-- Bunny head -->
+  <circle cx="50" cy="58" r="24" fill="#FFF9F2" stroke="#E9A7B8" stroke-width="1.8"/>
+  
+  <!-- Eyes -->
+  <circle cx="43" cy="56" r="2.5" fill="#6B514C"/>
+  <circle cx="44" cy="55" r="0.8" fill="#FFFFFF"/>
+  <circle cx="57" cy="56" r="2.5" fill="#6B514C"/>
+  <circle cx="58" cy="55" r="0.8" fill="#FFFFFF"/>
+  
+  <!-- Cheeks -->
+  <ellipse cx="38" cy="61" rx="3.5" ry="2" fill="#F6C8D4" opacity="0.8"/>
+  <ellipse cx="62" cy="61" rx="3.5" ry="2" fill="#F6C8D4" opacity="0.8"/>
+  
+  <!-- Nose and mouth -->
+  <polygon points="48,60 52,60 50,62" fill="#C96F8C"/>
+  <path d="M 47 63 Q 50 66 53 63" stroke="#6B514C" stroke-width="1" fill="none" stroke-linecap="round"/>
+
+  <!-- Satin Bow on the right ear -->
+  <path d="M 58 35 C 50 32, 48 42, 58 40 Z" fill="url(#ribbonGrad)"/>
+  <path d="M 66 35 C 74 32, 76 42, 66 40 Z" fill="url(#ribbonGrad)"/>
+  <circle cx="62" cy="37.5" r="3.5" fill="#C96F8C"/>
+</svg>

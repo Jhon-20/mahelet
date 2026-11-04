@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme {
+  --color-coquette-pink: #F6C8D4;
+  --color-coquette-blush: #E9A7B8;
+  --color-coquette-accent: #C96F8C;
+  --color-coquette-ivory: #FFF9F2;
+  --color-coquette-cream: #F5EBDD;
+  --color-coquette-brown: #6B514C;
+  --color-coquette-lightbrown: #947871;
+  --color-coquette-gold: #D4AF37;
+
+  --font-serif: 'Cormorant Garamond', Georgia, Cambria, serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-script: 'Great Vibes', cursive, 'Brush Script MT', sans-serif;
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+@layer base {
+  *, ::before, ::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    background-color: #F8EBF0;
+    color: #6B514C;
+    font-family: var(--font-sans);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  #root {
+    min-height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F8EBF0;
+    border: none;
+  }
+}
+
+/* Gold Foil Text Relief (Inspired by high-end letterpress foil invitations) */
+.gold-foil-text {
+  background: linear-gradient(135deg, #FFF3C4 0%, #E6BF52 25%, #FFF8D6 45%, #B88924 75%, #F0CE6B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 1.5px rgba(120, 80, 15, 0.4)) drop-shadow(0 5px 8px rgba(107, 81, 76, 0.18));
+}
+
+/* Polka dot pattern matching the Pinterest card background */
+.polka-dot-bg {
+  background-color: #FFFDF9;
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 2px, transparent 2px),
+    radial-gradient(circle, rgba(246, 200, 212, 0.35) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+  background-position: 0 0, 13px 13px;
+}
+
+/* Soft luxury card container */
+.luxury-invitation-frame {
+  background-color: #FFFDF9;
+  border: 10px solid #F6DDE5;
+  box-shadow: 
+    0 10px 40px -10px rgba(201, 111, 140, 0.22),
+    0 2px 10px 0 rgba(107, 81, 76, 0.08);
+}
+
+@media (min-width: 640px) {
+  .luxury-invitation-frame {
+    border-width: 14px;
+  }
+}
+
+/* Card inside sections */
+.luxury-card {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(233, 167, 184, 0.4);
+  box-shadow: 
+    0 4px 20px -2px rgba(201, 111, 140, 0.08),
+    0 2px 6px -1px rgba(107, 81, 76, 0.04);
+}
+
+/* Animated subtle butterfly floating */
+@keyframes flutterLeft {
+  0%, 100% {
+    transform: translate(0, 0) rotate(-4deg) scale(1);
+  }
+  50% {
+    transform: translate(-4px, -8px) rotate(4deg) scale(1.04);
+  }
+}
+
+@keyframes flutterRight {
+  0%, 100% {
+    transform: translate(0, 0) rotate(4deg) scale(1);
+  }
+  50% {
+    transform: translate(5px, -7px) rotate(-3deg) scale(1.04);
+  }
+}
+
+.animate-flutter-left {
+  animation: flutterLeft 4s ease-in-out infinite;
+}
+
+.animate-flutter-right {
+  animation: flutterRight 4.5s ease-in-out infinite 0.5s;
+}
+
+/* Subtle pulse */
+@keyframes gentlePulse {
+  0%, 100% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.025);
+  }
+}
+
+.animate-gentle-pulse {
+  animation: gentlePulse 3s ease-in-out infinite;
+}
