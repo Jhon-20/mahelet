@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { OpenInvitationButton } from '../ui/OpenInvitationButton';
 import type { InvitationConfig } from '../../types/invitation';
 
 interface VideoIntroScreenProps {
@@ -71,19 +72,12 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
             className="absolute inset-0 bg-black/25 backdrop-blur-xl flex flex-col items-center justify-center px-6 text-center"
           >
             <h1
-              className="text-6xl sm:text-7xl text-white leading-tight select-none mb-8 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]"
-              style={{ fontFamily: "'Great Vibes', cursive" }}
+              className="text-6xl sm:text-7xl text-white leading-tight select-none mb-10 drop-shadow-[0_4px_0_rgba(201,111,140,0.9)] [text-shadow:0_0_18px_rgba(0,0,0,0.25)]"
+              style={{ fontFamily: 'var(--font-baby)' }}
             >
               {config.baby.name}
             </h1>
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={handleOpen}
-              type="button"
-              className="py-3.5 px-8 rounded-full bg-gradient-to-r from-[#C96F8C] via-[#E07D9B] to-[#C96F8C] text-white font-serif text-base font-semibold shadow-lg shadow-[#C96F8C]/30 cursor-pointer border border-white/40"
-            >
-              Abrir invitación 🎀
-            </motion.button>
+            <OpenInvitationButton onClick={handleOpen} />
           </motion.div>
         )}
       </AnimatePresence>
