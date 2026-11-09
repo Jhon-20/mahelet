@@ -9,9 +9,13 @@ import { CustomCursor } from './components/motion/CustomCursor';
 import { VelocityMarquee } from './components/motion/VelocityMarquee';
 import { Sticker } from './components/ui/Sticker';
 import { SpotlightReveal } from './components/motion/SpotlightReveal';
+import { GuestPass } from './components/ui/GuestPass';
+import { getGuestFromUrl } from './utils/guest';
 
 export const App: React.FC = () => {
   const [introDone, setIntroDone] = useState(false);
+  // Invitado según la clave de la URL (?i=clave); null = invitación general
+  const [guest] = useState(getGuestFromUrl);
 
   const { scrollY, scrollYProgress } = useScroll();
   // Header y footer: se ocultan al bajar y reaparecen al subir
@@ -86,6 +90,9 @@ export const App: React.FC = () => {
           />
         </footer>
       )}
+
+      {/* Pase personal: ocupa el lugar del footer mientras se baja */}
+      {introDone && guest && <GuestPass guest={guest} visible={!showBars} />}
 
       {/* Intro Video Screen */}
       <AnimatePresence>
@@ -167,7 +174,7 @@ export const App: React.FC = () => {
               />
             </div>
 
-            <InvitationSections config={INVITATION_CONFIG} />
+            <InvitationSections config={INVITATION_CONFIG} guest={guest} />
           </div>
         </motion.main>
       )}

@@ -4,6 +4,7 @@ import { MapPin, MessageCircle, Heart } from 'lucide-react';
 import { PartyCalendar } from './PartyCalendar';
 import { YapeCopy } from './YapeCopy';
 import type { InvitationConfig } from '../../types/invitation';
+import type { Guest } from '../../utils/guest';
 import { SplitReveal } from '../motion/SplitReveal';
 import { ScrollFillText } from '../motion/ScrollFillText';
 import { Magnetic } from '../motion/MagneticButton';
@@ -89,10 +90,16 @@ const Unit: React.FC<{ value: number; label: string }> = ({ value, label }) => (
   </div>
 );
 
-export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ config }) => {
+export const InvitationSections: React.FC<{ config: InvitationConfig; guest?: Guest | null }> = ({ config, guest }) => {
   const { days, hours, minutes, seconds, done } = useCountdown(config.schedule.date);
+  // Con invitación personal el mensaje lleva el nombre y los pases
+  const who = !guest
+    ? 'Confirmo mi asistencia'
+    : guest.passes === 1
+      ? `Soy ${guest.name} y confirmo mi asistencia`
+      : `Somos ${guest.name} y confirmamos nuestra asistencia (${guest.passes} pases)`;
   const rsvpText =
-    `¡Hola! 🎀 Confirmo mi asistencia al primer añito de ${config.baby.name} ` +
+    `¡Hola! 🎀 ${who} al primer añito de ${config.baby.name} ` +
     `el ${config.schedule.displayDate} a las ${config.schedule.time}. ¡Ahí nos vemos! 🐰💕`;
   const rsvpUrl = `https://wa.me/${config.whatsapp.phoneNumber}?text=${encodeURIComponent(rsvpText)}`;
 
