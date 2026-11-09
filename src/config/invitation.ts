@@ -14,7 +14,7 @@ export const INVITATION_CONFIG: InvitationConfig = {
     fullName: 'Mahelet Abigail',
     ageTitle: '1 añito',
     birthdayNumber: 1,
-    parentsNames: 'Con todo el amor de sus papitos',
+    parentsNames: 'Jhon Soplopuco y Carmen Alayo',
   },
 
   welcome: {
@@ -26,20 +26,18 @@ export const INVITATION_CONFIG: InvitationConfig = {
   schedule: {
     // Formato ISO para la cuenta regresiva (Año-Mes-DíaTHora:Minuto:Segundo)
     // Cambia la fecha a la que corresponda a tu celebración
-    date: '2026-11-28T16:00:00',
-    displayDate: 'Sábado, 28 de Noviembre de 2026',
+    date: '2026-11-23T16:00:00',
+    displayDate: 'Lunes, 23 de Noviembre de 2026',
     time: '4:00 PM',
-    endTime: '8:30 PM',
     timezone: 'America/Lima',
   },
 
   location: {
-    venueName: 'Jardín de Ensueño Las Rosas',
-    address: 'Av. Las Gardenias 340, Urb. Primavera',
-    city: 'Lima, Perú',
+    venueName: 'La Triberca de Covicorti',
+    address: 'Covicorti',
+    city: '',
     // Enlace directo a Google Maps para el botón "Cómo llegar"
-    googleMapsUrl: 'https://maps.google.com/?q=Jardin+Las+Rosas+Lima',
-    notes: 'Habrá estacionamiento privado para invitados y zona infantil segura.',
+    googleMapsUrl: 'https://maps.google.com/?q=La+Triberca+de+Covicorti',
   },
 
   dressCode: {
@@ -63,8 +61,8 @@ export const INVITATION_CONFIG: InvitationConfig = {
 
   whatsapp: {
     // Número internacional con código de país (sin el signo +, ej: '51987654321')
-    phoneNumber: '51987654321',
-    eventOrganizerName: 'Papitos de Mahelet',
+    phoneNumber: '51900808268',
+    eventOrganizerName: 'Jhon y Carmen, papás de Mahelet',
   },
 
   photos: [

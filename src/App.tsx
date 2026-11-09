@@ -4,6 +4,7 @@ import { INVITATION_CONFIG } from './config/invitation';
 import { VideoIntroScreen } from './components/invitation/VideoIntroScreen';
 import { PetalsRain } from './components/ui/PetalsRain';
 import { SmoothScroll } from './components/motion/SmoothScroll';
+import { InvitationSections } from './components/invitation/InvitationSections';
 import { VelocityMarquee } from './components/motion/VelocityMarquee';
 
 export const App: React.FC = () => {
@@ -119,7 +120,7 @@ export const App: React.FC = () => {
               />
             </div>
 
-            {/* Espacio para próximas secciones */}
+            <InvitationSections config={INVITATION_CONFIG} />
           </div>
         </motion.main>
       )}
