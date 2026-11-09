@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { CalendarDays, Clock, MapPin, Shirt, MessageCircle, Heart } from 'lucide-react';
+import { CalendarDays, Clock, MapPin, MessageCircle, Heart } from 'lucide-react';
 import type { InvitationConfig } from '../../types/invitation';
 import { SplitReveal } from '../motion/SplitReveal';
 import { ScrollFillText } from '../motion/ScrollFillText';
 import { Magnetic } from '../motion/MagneticButton';
 import { StackCard } from '../motion/StackCard';
+import { Sticker } from '../ui/Sticker';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -34,7 +35,7 @@ const Title: React.FC<{ children: string }> = ({ children }) => (
 
 const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
   <div
-    className={`w-full rounded-[2rem] border border-white/80 bg-white/55 backdrop-blur-md shadow-[0_10px_40px_-12px_rgba(194,87,122,0.35)] p-6 text-center ${className}`}
+    className={`relative w-full rounded-[2rem] border border-white/80 bg-white/55 backdrop-blur-md shadow-[0_10px_40px_-12px_rgba(194,87,122,0.35)] p-6 text-center ${className}`}
   >
     {children}
   </div>
@@ -83,6 +84,8 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
     <div className="w-full flex flex-col items-center gap-24 mt-16">
       <Reveal>
         <Card>
+          <Sticker src="/images/nube.webp" float="bob" className="mx-auto -mt-2 mb-3 w-32" />
+          <Sticker src="/images/mariposa.webp" float="flutter" delay={0.3} className="absolute -bottom-7 -right-3 w-12" />
           <ScrollFillText text={config.quotes.emotionalMessage} className="text-xl leading-relaxed text-[#6B514C]" />
           <p className="mt-4 text-sm text-[#947871]">{config.baby.parentsNames}</p>
         </Card>
@@ -92,6 +95,7 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
         <Reveal className="w-full">
         <Title>Cuándo y dónde</Title>
         <Card className="flex flex-col gap-5">
+          <Sticker src="/images/carruaje.webp" float="sway" className="mx-auto -mt-2 w-36" />
           <div className="flex items-center justify-center gap-3 text-[#6B514C]">
             <CalendarDays className="size-6 text-[#C2577A]" />
             <p className="text-lg font-medium">{config.schedule.displayDate}</p>
@@ -126,6 +130,8 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
         <StackCard index={1}><Reveal className="w-full">
           <Title>Falta poquito</Title>
           <Card>
+            <Sticker src="/images/mariposa.webp" float="flutter" className="absolute -top-6 -right-3 w-12" />
+            <Sticker src="/images/mariposa.webp" float="flutter" delay={0.8} flip className="absolute -bottom-6 -left-3 w-10" />
             {done ? (
               <p className="text-2xl text-[#C2577A]">¡Hoy es el gran día! 🎉</p>
             ) : (
@@ -144,7 +150,7 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
         <Reveal className="w-full">
         <Title>Vestimenta</Title>
         <Card>
-          <Shirt className="mx-auto mb-3 size-6 text-[#C2577A]" />
+          <Sticker src="/images/coneja.webp" float="sway" className="mx-auto -mt-2 mb-3 w-24" />
           <p className="text-[#6B514C]">{config.dressCode.description}</p>
           <div className="mt-4 flex justify-center gap-3">
             {config.dressCode.paletteColors?.map((c) => (
@@ -164,6 +170,7 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
         <Reveal className="w-full">
         <Title>¿Nos acompañas?</Title>
         <Card>
+          <Sticker src="/images/globo.webp" float="drift" className="mx-auto -mt-2 mb-3 w-24" />
           <form onSubmit={sendRSVP} className="flex flex-col gap-3 text-left">
             <input
               value={guest}
@@ -207,7 +214,9 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
       </Reveal>
 
       <Reveal className="w-full">
-        <div className="text-center">
+        <div className="relative text-center">
+          <Sticker src="/images/mariposa.webp" float="flutter" className="absolute -top-4 left-2 w-10" />
+          <Sticker src="/images/mariposa.webp" float="flutter" delay={0.6} flip className="absolute top-6 right-2 w-12" />
           <Heart className="mx-auto mb-3 size-6 fill-[#DB7093] text-[#DB7093]" />
           <p className="text-4xl text-[#C2577A]" style={{ fontFamily: 'var(--font-joseph)' }}>
             ¡Te esperamos!

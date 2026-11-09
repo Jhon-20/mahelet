@@ -7,6 +7,7 @@ import { SmoothScroll } from './components/motion/SmoothScroll';
 import { InvitationSections } from './components/invitation/InvitationSections';
 import { CustomCursor } from './components/motion/CustomCursor';
 import { VelocityMarquee } from './components/motion/VelocityMarquee';
+import { Sticker } from './components/ui/Sticker';
 
 export const App: React.FC = () => {
   const [introDone, setIntroDone] = useState(false);
@@ -24,6 +25,9 @@ export const App: React.FC = () => {
   const numRotate = useTransform(scrollY, [0, 700], [0, -8]);
   const numY = useTransform(scrollY, [0, 700], [0, 120]);
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
+  // Globos de la portada: suben más rápido que el scroll (parallax)
+  const balloonY = useTransform(scrollY, [0, 700], [0, -260]);
+  const balloonsY = useTransform(scrollY, [0, 700], [0, -180]);
 
   useEffect(() => {
     document.body.style.overflow = introDone ? '' : 'hidden';
@@ -117,15 +121,31 @@ export const App: React.FC = () => {
               </h1>
             </motion.div>
 
-            <motion.img
-              initial={{ opacity: 0, y: 40, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              style={{ scale: numScale, rotate: numRotate, y: numY }}
-              src="/images/numero_1.webp"
-              alt="Número 1 primer añito"
-              className="w-44 sm:w-52 md:w-60 h-auto object-contain drop-shadow-md select-none"
-            />
+            <div className="relative w-full flex justify-center">
+              <Sticker
+                src="/images/areostatico.webp"
+                float="drift"
+                delay={0.6}
+                style={{ y: balloonY }}
+                className="absolute -left-1 top-2 z-0 w-20 sm:w-24"
+              />
+              <Sticker
+                src="/images/globo.webp"
+                float="drift"
+                delay={0.9}
+                style={{ y: balloonsY }}
+                className="absolute -right-1 top-10 z-0 w-20 sm:w-24"
+              />
+              <motion.img
+                initial={{ opacity: 0, y: 40, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                style={{ scale: numScale, rotate: numRotate, y: numY }}
+                src="/images/numero_1.webp"
+                alt="Número 1 primer añito"
+                className="relative z-10 w-44 sm:w-52 md:w-60 h-auto object-contain drop-shadow-md select-none"
+              />
+            </div>
 
             <div className="mt-28 w-full">
               <VelocityMarquee
