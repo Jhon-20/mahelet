@@ -65,6 +65,12 @@ export const INVITATION_CONFIG: InvitationConfig = {
     eventOrganizerName: 'Jhon y Carmen, papás de Mahelet',
   },
 
+  gifts: {
+    message: 'Tu compañía es nuestro mejor regalo. Si deseas tener un detallito con Mahelet, puedes hacerlo por Yape 💕',
+    yapeNumber: '939945744',
+    yapeName: 'Jhon Soplopuco',
+  },
+
   photos: [
     {
       id: 'photo-1',

@@ -57,6 +57,11 @@ export interface InvitationConfig {
     phoneNumber: string; // With country code e.g. "51987654321"
     eventOrganizerName: string;
   };
+  gifts: {
+    message: string;
+    yapeNumber: string; // 9 dígitos, sin espacios
+    yapeName: string;
+  };
   photos: PhotoMemory[];
   recommendations: RecommendationItem[];
   features: {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, MessageCircle, Heart } from 'lucide-react';
 import { PartyCalendar } from './PartyCalendar';
+import { YapeCopy } from './YapeCopy';
 import type { InvitationConfig } from '../../types/invitation';
 import { SplitReveal } from '../motion/SplitReveal';
 import { ScrollFillText } from '../motion/ScrollFillText';
@@ -119,7 +120,6 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
             text={config.quotes.emotionalMessage}
             className="text-[4cqw] leading-[1.55] text-[#6B514C]"
           />
-          <p className="mt-[3cqw] text-[3.2cqw] text-[#947871]">{config.baby.parentsNames}</p>
         </FrameCard>
       </Reveal>
 
@@ -246,6 +246,15 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
         </Card>
       </Reveal>
       </StackCard>
+
+      <Reveal className="w-full">
+        <Title>Un detallito</Title>
+        <Card className="flex flex-col gap-5">
+          <Sticker src="/images/regalo.webp" float="bob" className="mx-auto -mt-4 -mb-4 w-52" />
+          <p className="text-balance text-[#6B514C]">{config.gifts.message}</p>
+          <YapeCopy number={config.gifts.yapeNumber} name={config.gifts.yapeName} />
+        </Card>
+      </Reveal>
 
       <HorizontalScroll header={<Title>Antes de venir</Title>}>
         {config.recommendations.map((r, i) => (
