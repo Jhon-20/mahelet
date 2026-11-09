@@ -10,9 +10,9 @@ import type { InvitationConfig } from '../types/invitation';
 
 export const INVITATION_CONFIG: InvitationConfig = {
   baby: {
-    name: 'Mahelet',
-    fullName: 'Mahelet Soplopuco',
-    ageTitle: 'Mi Primer Añito',
+    name: 'Mahelet Abigail',
+    fullName: 'Mahelet Abigail',
+    ageTitle: '1 añito',
     birthdayNumber: 1,
     parentsNames: 'Con todo el amor de sus papitos',
   },

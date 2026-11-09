@@ -24,15 +24,23 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
 
   const handleOpen = () => {
     const video = videoRef.current;
-    if (!video) return onFinish();
-    // Este toque es el gesto válido que permite el sonido.
-    video.muted = false;
-    video.currentTime = 0;
-    video.play().catch(() => {
-      video.muted = true;
-      video.play().catch(() => onFinish());
-    });
+    if (!video) {
+      onFinish();
+      return;
+    }
     setStarted(true);
+    video.currentTime = 0;
+    video.muted = false;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Si el navegador bloquea el audio automático, intentamos silenciado
+        video.muted = true;
+        video.play().catch(() => {
+          onFinish();
+        });
+      });
+    }
   };
 
   return (
@@ -45,7 +53,7 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
     >
       <video
         ref={videoRef}
-        src={`${videoSrc}#t=0.001`}
+        src={videoSrc}
         playsInline
         preload="auto"
         disablePictureInPicture
@@ -59,8 +67,13 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
           });
         }}
         onEnded={onFinish}
-        onError={onFinish}
-        className="pointer-events-none h-[100dvh] w-full object-cover md:object-contain"
+        onError={(e) => {
+          console.warn('Video error:', e);
+          if (started) {
+            onFinish();
+          }
+        }}
+        className="h-[100dvh] w-full object-cover md:object-contain"
       />
 
       <AnimatePresence>
@@ -73,7 +86,7 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
           >
             <h1
               className="text-6xl sm:text-7xl text-white leading-tight select-none mb-10 drop-shadow-[0_4px_0_rgba(201,111,140,0.9)] [text-shadow:0_0_18px_rgba(0,0,0,0.25)]"
-              style={{ fontFamily: 'var(--font-baby)' }}
+              style={{ fontFamily: 'var(--font-joseph)' }}
             >
               {config.baby.name}
             </h1>
