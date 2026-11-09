@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 import { INVITATION_CONFIG } from './config/invitation';
 import { VideoIntroScreen } from './components/invitation/VideoIntroScreen';
@@ -11,11 +11,24 @@ import { Sticker } from './components/ui/Sticker';
 import { SpotlightReveal } from './components/motion/SpotlightReveal';
 import { GuestPass } from './components/ui/GuestPass';
 import { getGuestFromUrl } from './utils/guest';
+import { CurtainReveal } from './components/ui/CurtainReveal';
+import { FloatingAudioControl } from './components/ui/FloatingAudioControl';
+import { useAudio } from './hooks/useAudio';
 
 export const App: React.FC = () => {
   const [introDone, setIntroDone] = useState(false);
+  // Cortina entre el video y la invitación
+  const [curtain, setCurtain] = useState(false);
   // Invitado según la clave de la URL (?i=clave); null = invitación general
   const [guest] = useState(getGuestFromUrl);
+  const music = useAudio(INVITATION_CONFIG.features.enableAudio ? INVITATION_CONFIG.audio.src : '');
+  const { play: playMusic } = music;
+
+  // Al abrirse la cortina: se monta la invitación y empieza la música
+  const reveal = useCallback(() => {
+    setIntroDone(true);
+    playMusic();
+  }, [playMusic]);
 
   const { scrollY, scrollYProgress } = useScroll();
   // Header y footer: se ocultan al bajar y reaparecen al subir
@@ -100,10 +113,20 @@ export const App: React.FC = () => {
           <VideoIntroScreen
             config={INVITATION_CONFIG}
             videoSrc="/video/video-intro.mp4"
-            onFinish={() => setIntroDone(true)}
+            onOpen={music.unlock}
+            onFinish={() => setCurtain(true)}
           />
         )}
       </AnimatePresence>
+
+      {/* Cortina: tapa el final del video y se abre para mostrar la invitación */}
+      {curtain && (
+        <CurtainReveal name={INVITATION_CONFIG.baby.name} onReveal={reveal} onDone={() => setCurtain(false)} />
+      )}
+
+      {introDone && INVITATION_CONFIG.features.enableAudio && (
+        <FloatingAudioControl isPlaying={music.isPlaying} onToggle={music.toggle} />
+      )}
 
       {/* Invitación con scroll y cabecera/pie fijos */}
       {introDone && (

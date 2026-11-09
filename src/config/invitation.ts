@@ -133,8 +133,8 @@ export const INVITATION_CONFIG: InvitationConfig = {
   },
 
   audio: {
-    // Melodía suave de cuna o caja musical (libre de derechos o personalizable)
-    src: 'https://cdn.pixabay.com/download/audio/2022/05/16/audio_db6591201e.mp3?filename=gentle-piano-lullaby-110855.mp3',
+    // Canción de fondo: suena después del video de introducción
+    src: '/music/¡Feliz_feliz_Maileth_feliz_.mp3',
     title: 'Melodía de Ensueño',
     artist: 'Caja de Música Coquette',
   },

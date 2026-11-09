@@ -35,6 +35,26 @@ export function useAudio(audioSrc: string) {
     }
   }, []);
 
+  /**
+   * iOS/Safari solo deja reproducir audio iniciado por un toque. Llamar a esto dentro del
+   * toque (p. ej. "Abrir invitación") "desbloquea" el audio para poder darle play más tarde.
+   */
+  const unlock = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.muted = true;
+    audio
+      .play()
+      .then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+      })
+      .catch(() => {})
+      .finally(() => {
+        audio.muted = false;
+      });
+  }, []);
+
   const pause = useCallback(() => {
     if (!audioRef.current) return;
     audioRef.current.pause();
@@ -55,5 +75,6 @@ export function useAudio(audioSrc: string) {
     play,
     pause,
     toggle,
+    unlock,
   };
 }

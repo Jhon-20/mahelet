@@ -7,6 +7,8 @@ interface VideoIntroScreenProps {
   config: InvitationConfig;
   videoSrc?: string;
   onFinish: () => void;
+  /** Se llama dentro del toque en "Abrir invitación" (sirve para desbloquear el audio en iOS). */
+  onOpen?: () => void;
 }
 
 /**
@@ -18,11 +20,13 @@ export const VideoIntroScreen: React.FC<VideoIntroScreenProps> = ({
   config,
   videoSrc = '/video/video-intro.mp4',
   onFinish,
+  onOpen,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(false);
 
   const handleOpen = () => {
+    onOpen?.();
     const video = videoRef.current;
     if (!video) {
       onFinish();
