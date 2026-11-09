@@ -10,6 +10,7 @@ import { StackCard } from '../motion/StackCard';
 import { Sticker } from '../ui/Sticker';
 import { HorizontalScroll } from '../motion/HorizontalScroll';
 import { RollText } from '../motion/RollText';
+import confetti from 'canvas-confetti';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -34,6 +35,25 @@ const Title: React.FC<{ children: string }> = ({ children }) => (
   <h2 className="text-5xl sm:text-6xl text-[#C2577A] leading-tight text-center mb-5">
     <SplitReveal text={children} />
   </h2>
+);
+
+/**
+ * Tarjeta con el marco ovalado card.webp (736×979) en su proporción original, sin estirar.
+ * El contenido va en el rectángulo que cabe dentro del óvalo rosa, centrado; sus tamaños
+ * usan cqw (ancho de la tarjeta) para escalar junto con el marco.
+ */
+const FrameCard: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div className="@container relative aspect-[736/979] w-full">
+    <img
+      src="/images/card.webp"
+      alt=""
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 size-full select-none drop-shadow-[0_10px_18px_rgba(194,87,122,0.22)]"
+    />
+    <div className="absolute inset-x-[17%] inset-y-[14%] flex flex-col items-center justify-center text-center">
+      {children}
+    </div>
+  </div>
 );
 
 const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
@@ -70,28 +90,37 @@ const Unit: React.FC<{ value: number; label: string }> = ({ value, label }) => (
 
 export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ config }) => {
   const { days, hours, minutes, seconds, done } = useCountdown(config.schedule.date);
-  const [guest, setGuest] = useState('');
-  const [count, setCount] = useState('1');
+  const rsvpText =
+    `¡Hola! 🎀 Confirmo mi asistencia al primer añito de ${config.baby.name} ` +
+    `el ${config.schedule.displayDate} a las ${config.schedule.time}. ¡Ahí nos vemos! 🐰💕`;
+  const rsvpUrl = `https://wa.me/${config.whatsapp.phoneNumber}?text=${encodeURIComponent(rsvpText)}`;
 
-  const sendRSVP = (e: React.FormEvent) => {
-    e.preventDefault();
-    const name = guest.trim();
-    if (!name) return;
-    const text =
-      `¡Hola! Soy ${name} y confirmo mi asistencia al cumpleaños de ${config.baby.name} ` +
-      `el ${config.schedule.displayDate} a las ${config.schedule.time}. Asistiremos ${count} persona(s). 🎀`;
-    window.open(`https://wa.me/${config.whatsapp.phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+  // Confeti pastel que sale desde el botón antes de abrir WhatsApp
+  const celebrate = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    confetti({
+      particleCount: 90,
+      spread: 75,
+      startVelocity: 35,
+      origin: { x: (r.left + r.width / 2) / window.innerWidth, y: (r.top + r.height / 2) / window.innerHeight },
+      colors: ['#F6C8D4', '#DB7093', '#FFFFFF', '#EADBCB', '#F2B5C8'],
+      shapes: ['circle'],
+      scalar: 0.9,
+    });
   };
 
   return (
     <div className="w-full flex flex-col items-center gap-24 mt-16">
-      <Reveal>
-        <Card>
-          <Sticker src="/images/nube.webp" float="bob" className="mx-auto -mt-2 mb-3 w-32" />
-          <Sticker src="/images/mariposa.webp" float="flutter" delay={0.3} className="absolute -bottom-7 -right-3 w-12" />
-          <ScrollFillText text={config.quotes.emotionalMessage} className="text-xl leading-relaxed text-[#6B514C]" />
-          <p className="mt-4 text-sm text-[#947871]">{config.baby.parentsNames}</p>
-        </Card>
+      <Reveal className="relative w-full">
+        <Sticker src="/images/mariposa.webp" float="flutter" delay={0.3} className="absolute bottom-[8%] right-0 z-10 w-12" />
+        <FrameCard>
+          <Sticker src="/images/nube.webp" float="bob" className="mb-[2cqw] w-[22cqw] shrink-0" />
+          <ScrollFillText
+            text={config.quotes.emotionalMessage}
+            className="text-[4cqw] leading-[1.55] text-[#6B514C]"
+          />
+          <p className="mt-[3cqw] text-[3.2cqw] text-[#947871]">{config.baby.parentsNames}</p>
+        </FrameCard>
       </Reveal>
 
       <StackCard index={0}>
@@ -167,33 +196,53 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
         <Title>¿Nos acompañas?</Title>
         <Card>
           <Sticker src="/images/globo.webp" float="drift" className="mx-auto -mt-2 mb-3 w-24" />
-          <form onSubmit={sendRSVP} className="flex flex-col gap-3 text-left">
-            <input
-              value={guest}
-              onChange={(e) => setGuest(e.target.value)}
-              placeholder="Tu nombre"
-              required
-              className="rounded-2xl border border-[#F2B5C8] bg-white/80 px-4 py-3 outline-none focus:border-[#C2577A]"
-            />
-            <select
-              value={count}
-              onChange={(e) => setCount(e.target.value)}
-              className="rounded-2xl border border-[#F2B5C8] bg-white/80 px-4 py-3 outline-none focus:border-[#C2577A]"
-            >
-              {[1, 2, 3, 4, 5, 6].map((n) => (
-                <option key={n} value={n}>
-                  {n} {n === 1 ? 'persona' : 'personas'}
-                </option>
-              ))}
-            </select>
-            <button
-              type="submit"
-              className="group mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#DB7093] px-7 py-3 text-white font-medium shadow-[3px_4px_0_0_#B8587A] active:translate-y-0.5"
-            >
-              <MessageCircle className="size-5 transition-transform duration-500 group-hover:rotate-[-12deg] group-hover:scale-110" />
-              <RollText text="Confirmar por WhatsApp" />
-            </button>
-          </form>
+          <p className="text-3xl leading-snug text-balance text-[#C2577A]" style={{ fontFamily: 'var(--font-joseph)' }}>
+            Nos encantaría celebrar contigo
+          </p>
+          <p className="mt-2 text-sm text-[#947871]">Confírmanos con un toquecito 💌</p>
+
+          <div className="relative mx-auto mt-7 w-fit">
+            {/* Ondas que "laten" detrás del botón para invitar a tocarlo */}
+            {[0, 1].map((i) => (
+              <motion.span
+                key={i}
+                aria-hidden="true"
+                className="absolute inset-0 rounded-full bg-[#DB7093]/40"
+                animate={{ scale: [1, 1.35], opacity: [0.6, 0] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', delay: i * 1.1 }}
+              />
+            ))}
+            <Magnetic>
+              <a
+                href={rsvpUrl}
+                target="_blank"
+                rel="noreferrer"
+                onClick={celebrate}
+                className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-gradient-to-br from-[#E88FAB] to-[#C2577A] px-8 py-4 text-lg font-semibold text-white shadow-[0_5px_0_0_#A9466A,0_14px_28px_-10px_rgba(194,87,122,0.7)] transition-transform active:translate-y-1 active:shadow-[0_2px_0_0_#A9466A]"
+                style={{ fontFamily: 'var(--font-button)' }}
+              >
+                {/* Brillo que cruza el botón cada pocos segundos */}
+                <motion.span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/55 to-transparent"
+                  animate={{ x: ['0%', '520%'] }}
+                  transition={{ duration: 1.3, repeat: Infinity, repeatDelay: 2.2, ease: 'easeInOut' }}
+                />
+                <motion.span
+                  className="relative"
+                  animate={{ rotate: [0, -14, 10, -6, 0] }}
+                  transition={{ duration: 0.9, repeat: Infinity, repeatDelay: 2.6 }}
+                >
+                  <MessageCircle className="size-6" />
+                </motion.span>
+                <span className="relative">
+                  <RollText text="¡Sí, ahí estaré!" />
+                </span>
+              </a>
+            </Magnetic>
+          </div>
+
+          <p className="mt-6 text-xs text-[#947871]">Se abrirá WhatsApp con tu mensaje listo ✨</p>
         </Card>
       </Reveal>
       </StackCard>
