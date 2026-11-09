@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { DecorativeBow } from './DecorativeBow';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -82,9 +81,16 @@ export const CurtainReveal: React.FC<{ name: string; onReveal: () => void; onDon
         animate={phase === 'hold' ? { opacity: 1, scale: 1 } : { opacity: 0, scale: phase === 'opening' ? 1.15 : 0.6 }}
         transition={{ duration: 0.6, ease: EASE }}
       >
-        <DecorativeBow size="lg" className="scale-150" />
+        <motion.img
+          src="/images/coneja.webp"
+          alt=""
+          draggable={false}
+          className="w-36 drop-shadow-[0_10px_16px_rgba(120,40,70,0.35)] sm:w-44"
+          animate={{ rotate: [-4, 4, -4], y: [0, -6, 0] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <p
-          className="mt-6 px-8 text-5xl leading-tight text-balance text-white drop-shadow-[0_3px_0_rgba(194,87,122,0.8)] sm:text-6xl"
+          className="mt-4 px-8 text-5xl leading-tight text-balance text-white drop-shadow-[0_3px_0_rgba(194,87,122,0.8)] sm:text-6xl"
           style={{ fontFamily: 'var(--font-joseph)' }}
         >
           {name}
