@@ -2,10 +2,7 @@
 
 @font-face {
   font-family: 'Joseph Sophia';
-  src: url('/fonts/josephsophia.ttf') format('truetype'),
-       url('/fonts/JosephSophia.ttf') format('truetype'),
-       url('/fonts/JosephSophia.otf') format('opentype'),
-       url('/fonts/joseph-sophia.ttf') format('truetype');
+  src: url('/fonts/josephsophia.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
