@@ -8,6 +8,7 @@ import { InvitationSections } from './components/invitation/InvitationSections';
 import { CustomCursor } from './components/motion/CustomCursor';
 import { VelocityMarquee } from './components/motion/VelocityMarquee';
 import { Sticker } from './components/ui/Sticker';
+import { SpotlightReveal } from './components/motion/SpotlightReveal';
 
 export const App: React.FC = () => {
   const [introDone, setIntroDone] = useState(false);
@@ -113,12 +114,24 @@ export const App: React.FC = () => {
               transition={{ delay: 0.4, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="text-center px-4"
             >
-              <h1
-                className="acrylic-cutout-title text-7xl sm:text-8xl md:text-9xl leading-[1.05] select-none tracking-wide"
-                style={{ fontFamily: 'var(--font-joseph)' }}
+              {/* Linterna: un círculo revela el nombre en versión "recortada" (blanco con borde rosa) */}
+              <SpotlightReveal
+                reveal={
+                  <p
+                    className="text-7xl sm:text-8xl md:text-9xl leading-[1.05] select-none tracking-wide text-white [-webkit-text-stroke:1.5px_#C2577A] [text-shadow:0_0_18px_rgba(219,112,147,0.55)]"
+                    style={{ fontFamily: 'var(--font-joseph)' }}
+                  >
+                    {INVITATION_CONFIG.baby.name}
+                  </p>
+                }
               >
-                {INVITATION_CONFIG.baby.name}
-              </h1>
+                <h1
+                  className="acrylic-cutout-title text-7xl sm:text-8xl md:text-9xl leading-[1.05] select-none tracking-wide"
+                  style={{ fontFamily: 'var(--font-joseph)' }}
+                >
+                  {INVITATION_CONFIG.baby.name}
+                </h1>
+              </SpotlightReveal>
             </motion.div>
 
             <div className="relative w-full flex justify-center">

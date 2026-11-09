@@ -20,20 +20,32 @@ interface StickerProps {
   /** Estilo de motion para el contenedor (parallax con scroll). */
   style?: MotionStyle;
   flip?: boolean;
+  /** "pop" crece en su sitio; "left"/"right" entra rodando desde ese lado. */
+  enter?: 'pop' | 'left' | 'right';
 }
 
+const ENTER = {
+  pop: { opacity: 0, scale: 0.6 },
+  left: { opacity: 0, x: -160, rotate: -6 },
+  right: { opacity: 0, x: 160, rotate: 6 },
+};
+
 /** Ilustración decorativa en acuarela: aparece con un "pop" y luego flota en bucle. */
-export const Sticker: React.FC<StickerProps> = ({ src, className = '', float = 'bob', delay = 0, style, flip }) => {
+export const Sticker: React.FC<StickerProps> = ({ src, className = '', float = 'bob', delay = 0, style, flip, enter = 'pop' }) => {
   const f = FLOATS[float];
   return (
     <motion.div
       aria-hidden="true"
       style={style}
       className={`pointer-events-none select-none ${className}`}
-      initial={{ opacity: 0, scale: 0.6 }}
-      whileInView={{ opacity: 1, scale: 1 }}
+      initial={ENTER[enter]}
+      whileInView={{ opacity: 1, scale: 1, x: 0, rotate: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ type: 'spring', stiffness: 120, damping: 14, delay }}
+      transition={
+        enter === 'pop'
+          ? { type: 'spring', stiffness: 120, damping: 14, delay }
+          : { duration: 1.4, ease: [0.22, 1, 0.36, 1], delay }
+      }
     >
       <motion.img
         src={src}

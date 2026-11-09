@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { CalendarDays, Clock, MapPin, MessageCircle, Heart } from 'lucide-react';
+import { MapPin, MessageCircle, Heart } from 'lucide-react';
+import { PartyCalendar } from './PartyCalendar';
 import type { InvitationConfig } from '../../types/invitation';
 import { SplitReveal } from '../motion/SplitReveal';
 import { ScrollFillText } from '../motion/ScrollFillText';
 import { Magnetic } from '../motion/MagneticButton';
 import { StackCard } from '../motion/StackCard';
 import { Sticker } from '../ui/Sticker';
+import { HorizontalScroll } from '../motion/HorizontalScroll';
+import { RollText } from '../motion/RollText';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -95,15 +98,8 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
         <Reveal className="w-full">
         <Title>Cuándo y dónde</Title>
         <Card className="flex flex-col gap-5">
-          <Sticker src="/images/carruaje.webp" float="sway" className="mx-auto -mt-2 w-36" />
-          <div className="flex items-center justify-center gap-3 text-[#6B514C]">
-            <CalendarDays className="size-6 text-[#C2577A]" />
-            <p className="text-lg font-medium">{config.schedule.displayDate}</p>
-          </div>
-          <div className="flex items-center justify-center gap-3 text-[#6B514C]">
-            <Clock className="size-6 text-[#C2577A]" />
-            <p className="text-lg font-medium">{config.schedule.time}</p>
-          </div>
+          <Sticker src="/images/carruaje.webp" float="sway" enter="left" className="mx-auto -mt-2 w-36" />
+          <PartyCalendar iso={config.schedule.date} time={config.schedule.time} />
           <div className="flex items-center justify-center gap-3 text-[#6B514C]">
             <MapPin className="size-6 text-[#C2577A]" />
             <p className="text-lg font-medium">{config.location.venueName}</p>
@@ -115,9 +111,9 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
                   href={config.location.googleMapsUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-block rounded-full bg-[#DB7093] px-7 py-3 text-white font-medium shadow-[3px_4px_0_0_#B8587A] active:translate-y-0.5"
+                  className="group inline-block rounded-full bg-[#DB7093] px-7 py-3 text-white font-medium shadow-[3px_4px_0_0_#B8587A] active:translate-y-0.5"
                 >
-                  Cómo llegar
+                  <RollText text="Cómo llegar" />
                 </a>
               </Magnetic>
             </div>
@@ -192,26 +188,28 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
             </select>
             <button
               type="submit"
-              className="mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#DB7093] px-7 py-3 text-white font-medium shadow-[3px_4px_0_0_#B8587A] active:translate-y-0.5"
+              className="group mt-1 inline-flex items-center justify-center gap-2 rounded-full bg-[#DB7093] px-7 py-3 text-white font-medium shadow-[3px_4px_0_0_#B8587A] active:translate-y-0.5"
             >
-              <MessageCircle className="size-5" /> Confirmar por WhatsApp
+              <MessageCircle className="size-5 transition-transform duration-500 group-hover:rotate-[-12deg] group-hover:scale-110" />
+              <RollText text="Confirmar por WhatsApp" />
             </button>
           </form>
         </Card>
       </Reveal>
       </StackCard>
 
-      <Reveal className="w-full">
-        <Title>Antes de venir</Title>
-        <div className="flex flex-col gap-3">
-          {config.recommendations.map((r) => (
-            <Card key={r.id} className="!p-4">
-              <p className="font-semibold text-[#C2577A]">{r.title}</p>
-              <p className="mt-1 text-sm text-[#6B514C]">{r.description}</p>
-            </Card>
-          ))}
-        </div>
-      </Reveal>
+      <HorizontalScroll header={<Title>Antes de venir</Title>}>
+        {config.recommendations.map((r, i) => (
+          <Card key={r.id} className="!w-[75vw] max-w-[18rem] shrink-0 !p-5 !text-left">
+            <p className="text-5xl font-semibold leading-none text-[#F2B5C8]" style={{ fontFamily: 'var(--font-button)' }}>
+              {String(i + 1).padStart(2, '0')}
+            </p>
+            <p className="mt-3 font-semibold text-[#C2577A]">{r.title}</p>
+            <p className="mt-1 text-sm text-[#6B514C]">{r.description}</p>
+          </Card>
+        ))}
+        <Sticker src="/images/Baby.webp" float="sway" className="w-16 shrink-0 self-end sm:w-20" />
+      </HorizontalScroll>
 
       <Reveal className="w-full">
         <div className="relative text-center">
