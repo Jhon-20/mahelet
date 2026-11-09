@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { CalendarDays, Clock, MapPin, Shirt, MessageCircle, Heart } from 'lucide-react';
 import type { InvitationConfig } from '../../types/invitation';
+import { SplitReveal } from '../motion/SplitReveal';
+import { ScrollFillText } from '../motion/ScrollFillText';
+import { Magnetic } from '../motion/MagneticButton';
+import { StackCard } from '../motion/StackCard';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -22,8 +26,10 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; className?: 
   </motion.div>
 );
 
-const Title: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h2 className="text-5xl sm:text-6xl text-[#C2577A] leading-tight text-center mb-5">{children}</h2>
+const Title: React.FC<{ children: string }> = ({ children }) => (
+  <h2 className="text-5xl sm:text-6xl text-[#C2577A] leading-tight text-center mb-5">
+    <SplitReveal text={children} />
+  </h2>
 );
 
 const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
@@ -77,12 +83,13 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
     <div className="w-full flex flex-col items-center gap-24 mt-16">
       <Reveal>
         <Card>
-          <p className="text-lg leading-relaxed text-[#6B514C]">{config.quotes.emotionalMessage}</p>
+          <ScrollFillText text={config.quotes.emotionalMessage} className="text-xl leading-relaxed text-[#6B514C]" />
           <p className="mt-4 text-sm text-[#947871]">{config.baby.parentsNames}</p>
         </Card>
       </Reveal>
 
-      <Reveal className="w-full">
+      <StackCard index={0}>
+        <Reveal className="w-full">
         <Title>Cuándo y dónde</Title>
         <Card className="flex flex-col gap-5">
           <div className="flex items-center justify-center gap-3 text-[#6B514C]">
@@ -98,20 +105,25 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
             <p className="text-lg font-medium">{config.location.venueName}</p>
           </div>
           {config.features.enableGoogleMaps && (
-            <a
-              href={config.location.googleMapsUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="mx-auto mt-1 rounded-full bg-[#DB7093] px-7 py-3 text-white font-medium shadow-[3px_4px_0_0_#B8587A] active:translate-y-0.5"
-            >
-              Cómo llegar
-            </a>
+            <div className="mx-auto mt-1">
+              <Magnetic>
+                <a
+                  href={config.location.googleMapsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-block rounded-full bg-[#DB7093] px-7 py-3 text-white font-medium shadow-[3px_4px_0_0_#B8587A] active:translate-y-0.5"
+                >
+                  Cómo llegar
+                </a>
+              </Magnetic>
+            </div>
           )}
         </Card>
       </Reveal>
+      </StackCard>
 
       {config.features.enableCountdown && (
-        <Reveal className="w-full">
+        <StackCard index={1}><Reveal className="w-full">
           <Title>Falta poquito</Title>
           <Card>
             {done ? (
@@ -125,10 +137,11 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
               </div>
             )}
           </Card>
-        </Reveal>
+        </Reveal></StackCard>
       )}
 
-      <Reveal className="w-full">
+      <StackCard index={2}>
+        <Reveal className="w-full">
         <Title>Vestimenta</Title>
         <Card>
           <Shirt className="mx-auto mb-3 size-6 text-[#C2577A]" />
@@ -145,8 +158,10 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
           </div>
         </Card>
       </Reveal>
+      </StackCard>
 
-      <Reveal className="w-full">
+      <StackCard index={3} last>
+        <Reveal className="w-full">
         <Title>¿Nos acompañas?</Title>
         <Card>
           <form onSubmit={sendRSVP} className="flex flex-col gap-3 text-left">
@@ -177,6 +192,7 @@ export const InvitationSections: React.FC<{ config: InvitationConfig }> = ({ con
           </form>
         </Card>
       </Reveal>
+      </StackCard>
 
       <Reveal className="w-full">
         <Title>Antes de venir</Title>

@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 import { INVITATION_CONFIG } from './config/invitation';
 import { VideoIntroScreen } from './components/invitation/VideoIntroScreen';
 import { PetalsRain } from './components/ui/PetalsRain';
 import { SmoothScroll } from './components/motion/SmoothScroll';
 import { InvitationSections } from './components/invitation/InvitationSections';
+import { CustomCursor } from './components/motion/CustomCursor';
 import { VelocityMarquee } from './components/motion/VelocityMarquee';
 
 export const App: React.FC = () => {
   const [introDone, setIntroDone] = useState(false);
 
   const { scrollY, scrollYProgress } = useScroll();
+  // Header y footer: se ocultan al bajar y reaparecen al subir
+  const [showBars, setShowBars] = useState(true);
+  useMotionValueEvent(scrollY, 'change', (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    if (y < 60) setShowBars(true);
+    else if (y > prev + 4) setShowBars(false);
+    else if (y < prev - 4) setShowBars(true);
+  });
   const numScale = useSpring(useTransform(scrollY, [0, 500], [1, 1.5]), { stiffness: 80, damping: 20 });
   const numRotate = useTransform(scrollY, [0, 700], [0, -8]);
   const numY = useTransform(scrollY, [0, 700], [0, 120]);
@@ -27,6 +36,7 @@ export const App: React.FC = () => {
   return (
     <div className="relative min-h-screen w-full overflow-x-clip bg-transparent text-[#6B514C] flex flex-col items-center selection:bg-[#F6C8D4] selection:text-[#6B514C]">
       <SmoothScroll enabled={introDone} />
+      <CustomCursor />
 
       {/* Barra de progreso de scroll */}
       {introDone && (
@@ -49,7 +59,9 @@ export const App: React.FC = () => {
       {/* Header Fixed: Lazo floral */}
       {introDone && (
         <header className="fixed top-0 left-0 right-0 z-30 flex justify-center pointer-events-none select-none">
-          <img
+          <motion.img
+            animate={{ y: showBars ? 0 : '-100%' }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             src="/images/hedaer-lazo.webp"
             alt="Header lazo floral"
             className="w-full max-w-lg object-contain object-top drop-shadow-sm"
@@ -60,7 +72,9 @@ export const App: React.FC = () => {
       {/* Footer Fixed: Conejita */}
       {introDone && (
         <footer className="fixed bottom-0 left-0 right-0 z-30 flex justify-center pointer-events-none select-none">
-          <img
+          <motion.img
+            animate={{ y: showBars ? 0 : '100%' }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             src="/images/footer-coneja.webp"
             alt="Footer conejita"
             className="w-full max-w-lg object-contain object-bottom max-h-[38vh] drop-shadow-sm"
