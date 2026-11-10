@@ -68,9 +68,14 @@ export const App: React.FC = () => {
         />
       )}
 
-      {/* Background Wallpaper */}
+      {/* Fondo: en tablet/web, versión borrosa a pantalla completa + "hoja" central con el fondo nítido */}
       <div
-        className="fixed inset-0 -z-10 bg-cover bg-center bg-no-repeat pointer-events-none"
+        className="fixed inset-0 -z-20 hidden scale-110 bg-cover bg-center blur-2xl md:block"
+        style={{ backgroundImage: "url('/images/body-background.webp')" }}
+        aria-hidden="true"
+      />
+      <div
+        className="fixed inset-y-0 left-1/2 -z-10 w-full -translate-x-1/2 bg-cover bg-center bg-no-repeat pointer-events-none md:max-w-xl md:shadow-[0_0_80px_rgba(194,87,122,0.25)] lg:max-w-[40rem]"
         style={{ backgroundImage: "url('/images/body-background.webp')" }}
         aria-hidden="true"
       />
@@ -86,7 +91,7 @@ export const App: React.FC = () => {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             src="/images/hedaer-lazo.webp"
             alt="Header lazo floral"
-            className="w-full max-w-lg object-contain object-top drop-shadow-sm"
+            className="w-full max-w-lg md:max-w-xl lg:max-w-[40rem] object-contain object-top drop-shadow-sm"
           />
         </header>
       )}
@@ -99,7 +104,7 @@ export const App: React.FC = () => {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             src="/images/footer-coneja.webp"
             alt="Footer conejita"
-            className="w-full max-w-lg object-contain object-bottom max-h-[38vh] drop-shadow-sm"
+            className="w-full max-w-lg md:max-w-xl lg:max-w-[40rem] object-contain object-bottom max-h-[38vh] drop-shadow-sm"
           />
         </footer>
       )}
@@ -134,7 +139,7 @@ export const App: React.FC = () => {
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative z-10 w-full max-w-lg min-h-screen px-4 pt-56 sm:pt-60 pb-60 sm:pb-72 flex flex-col items-center"
+          className="relative z-10 w-full max-w-lg md:max-w-xl lg:max-w-[40rem] min-h-screen px-4 pt-56 sm:pt-60 md:pt-64 lg:pt-72 pb-60 sm:pb-72 flex flex-col items-center"
         >
           <div className="w-full flex flex-col items-center gap-4">
             {/* Título en acrílico 3D con fuente Alex Brush */}
@@ -170,14 +175,14 @@ export const App: React.FC = () => {
                 float="drift"
                 delay={0.6}
                 style={{ y: balloonY }}
-                className="absolute -left-1 top-2 z-0 w-20 sm:w-24"
+                className="absolute -left-1 top-2 z-0 w-20 sm:w-24 lg:w-28"
               />
               <Sticker
                 src="/images/globo.webp"
                 float="drift"
                 delay={0.9}
                 style={{ y: balloonsY }}
-                className="absolute -right-1 top-10 z-0 w-20 sm:w-24"
+                className="absolute -right-1 top-10 z-0 w-20 sm:w-24 lg:w-28"
               />
               <motion.img
                 initial={{ opacity: 0, y: 40, scale: 0.9 }}
@@ -186,7 +191,7 @@ export const App: React.FC = () => {
                 style={{ scale: numScale, rotate: numRotate, y: numY }}
                 src="/images/numero_1.webp"
                 alt="Número 1 primer añito"
-                className="relative z-10 w-44 sm:w-52 md:w-60 h-auto object-contain drop-shadow-md select-none"
+                className="relative z-10 w-44 sm:w-52 md:w-64 lg:w-72 h-auto object-contain drop-shadow-md select-none"
               />
             </div>
 

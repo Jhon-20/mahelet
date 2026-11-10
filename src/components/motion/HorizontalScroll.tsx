@@ -40,7 +40,7 @@ export const HorizontalScroll: React.FC<{ header: React.ReactNode; children: Rea
   return (
     <div ref={ref} className="relative w-full" style={{ height }}>
       <div ref={viewportRef} className="sticky top-[18vh] ml-[calc(50%-50vw)] w-screen overflow-hidden py-6">
-        <div className="mx-auto w-full max-w-lg px-4">{header}</div>
+        <div className="mx-auto w-full max-w-lg md:max-w-xl lg:max-w-[40rem] px-4">{header}</div>
         <motion.div
           ref={trackRef}
           style={{ x }}

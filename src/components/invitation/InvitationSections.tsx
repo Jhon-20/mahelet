@@ -34,7 +34,7 @@ const Reveal: React.FC<{ children: React.ReactNode; delay?: number; className?: 
 );
 
 const Title: React.FC<{ children: string }> = ({ children }) => (
-  <h2 className="text-5xl sm:text-6xl text-[#C2577A] leading-tight text-center mb-5">
+  <h2 className="text-5xl sm:text-6xl lg:text-7xl text-[#C2577A] leading-tight text-center mb-5">
     <SplitReveal text={children} />
   </h2>
 );

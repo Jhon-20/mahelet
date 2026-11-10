@@ -6,9 +6,33 @@ export interface Guest {
   passes: number;
 }
 
+const STORAGE_KEY = 'mahelet-guest-key';
+
+const findGuest = (raw: string | null | undefined): Guest | undefined => {
+  const key = raw?.trim().toLowerCase();
+  return key ? (guests as Guest[]).find((g) => g.key === key) : undefined;
+};
+
+const readStored = (): string | null => {
+  try {
+    return localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null; // modo privado / almacenamiento bloqueado
+  }
+};
+
+const store = (key: string) => {
+  try {
+    localStorage.setItem(STORAGE_KEY, key);
+  } catch {
+    /* sin almacenamiento: seguimos sin recordar */
+  }
+};
+
 /**
  * Busca al invitado por la clave de la URL. Acepta ?i=clave (recomendado), ?clave, /clave y #clave.
- * Si no hay clave o no existe, devuelve null (invitación general).
+ * Si la clave de la URL es válida, la recuerda en el navegador. Si no hay clave (o es inválida),
+ * usa la recordada. Si tampoco hay, devuelve null (invitación general).
  */
 export const getGuestFromUrl = (): Guest | null => {
   const { search, pathname, hash } = window.location;
@@ -20,9 +44,11 @@ export const getGuestFromUrl = (): Guest | null => {
     hash.replace(/^#\/?/, ''),
   ];
   for (const c of candidates) {
-    const key = c?.trim().toLowerCase();
-    const guest = key ? (guests as Guest[]).find((g) => g.key === key) : undefined;
-    if (guest) return guest;
+    const guest = findGuest(c);
+    if (guest) {
+      store(guest.key);
+      return guest;
+    }
   }
-  return null;
+  return findGuest(readStored()) ?? null;
 };

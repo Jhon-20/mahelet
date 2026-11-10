@@ -33,11 +33,11 @@ export const INVITATION_CONFIG: InvitationConfig = {
   },
 
   location: {
-    venueName: 'La Triberca de Covicorti',
+    venueName: 'Triberca de Covicorti',
     address: 'Covicorti',
     city: '',
     // Enlace directo a Google Maps para el botón "Cómo llegar"
-    googleMapsUrl: 'https://maps.google.com/?q=La+Triberca+de+Covicorti',
+    googleMapsUrl: 'https://maps.app.goo.gl/21LhZeNvCPTQEx1A8',
   },
 
   dressCode: {
