@@ -1,0 +1,10 @@
+name = "mahelet-rsvp"
+main = "index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Cambia por tu dominio real (sin barra final)
+ALLOWED_ORIGINS = "https://mahelet.party,https://www.mahelet.party"
+
+# Opcional: servir el Worker en un subdominio propio
+# routes = [{ pattern = "api.mahelet.party", custom_domain = true }]

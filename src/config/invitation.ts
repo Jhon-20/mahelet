@@ -61,7 +61,7 @@ export const INVITATION_CONFIG: InvitationConfig = {
 
   whatsapp: {
     // Número internacional con código de país (sin el signo +, ej: '51987654321')
-    phoneNumber: '51900808268',
+    phoneNumber: '51939945744',
     eventOrganizerName: 'Jhon y Carmen, papás de Mahelet',
   },
 

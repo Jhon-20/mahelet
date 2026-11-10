@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, MessageCircle, Heart } from 'lucide-react';
+import { MapPin, Heart } from 'lucide-react';
 import { PartyCalendar } from './PartyCalendar';
 import { YapeCopy } from './YapeCopy';
 import type { InvitationConfig } from '../../types/invitation';
@@ -12,7 +12,7 @@ import { StackCard } from '../motion/StackCard';
 import { Sticker } from '../ui/Sticker';
 import { HorizontalScroll } from '../motion/HorizontalScroll';
 import { RollText } from '../motion/RollText';
-import confetti from 'canvas-confetti';
+import { RSVPLetter } from './RSVPLetter';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -98,24 +98,11 @@ export const InvitationSections: React.FC<{ config: InvitationConfig; guest?: Gu
     : guest.passes === 1
       ? `Soy ${guest.name} y confirmo mi asistencia`
       : `Somos ${guest.name} y confirmamos nuestra asistencia (${guest.passes} pases)`;
-  const rsvpText =
-    `¡Hola! 🎀 ${who} al primer añito de ${config.baby.name} ` +
-    `el ${config.schedule.displayDate} a las ${config.schedule.time}. ¡Ahí nos vemos! 🐰💕`;
-  const rsvpUrl = `https://wa.me/${config.whatsapp.phoneNumber}?text=${encodeURIComponent(rsvpText)}`;
-
-  // Confeti pastel que sale desde el botón antes de abrir WhatsApp
-  const celebrate = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    confetti({
-      particleCount: 90,
-      spread: 75,
-      startVelocity: 35,
-      origin: { x: (r.left + r.width / 2) / window.innerWidth, y: (r.top + r.height / 2) / window.innerHeight },
-      colors: ['#F6C8D4', '#DB7093', '#FFFFFF', '#EADBCB', '#F2B5C8'],
-      shapes: ['circle'],
-      scalar: 0.9,
-    });
-  };
+  const buildRsvpText = (attending: boolean) =>
+    attending
+      ? `¡Hola! 🎀 ${who} al primer añito de ${config.baby.name} ` +
+        `el ${config.schedule.displayDate} a las ${config.schedule.time}. ¡Ahí nos vemos! 🐰💕`
+      : `¡Hola! 🎀 ${guest ? guest.name : 'Te escribo'}: lamentablemente no podré asistir al primer añito de ${config.baby.name}. ¡Les mando un abrazo enorme! 💕`;
 
   return (
     <div className="w-full flex flex-col items-center gap-24 mt-16">
@@ -208,48 +195,9 @@ export const InvitationSections: React.FC<{ config: InvitationConfig; guest?: Gu
           </p>
           <p className="mt-2 text-sm text-[#947871]">Confírmanos con un toquecito 💌</p>
 
-          <div className="relative mx-auto mt-7 w-fit">
-            {/* Ondas que "laten" detrás del botón para invitar a tocarlo */}
-            {[0, 1].map((i) => (
-              <motion.span
-                key={i}
-                aria-hidden="true"
-                className="absolute inset-0 rounded-full bg-[#DB7093]/40"
-                animate={{ scale: [1, 1.35], opacity: [0.6, 0] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut', delay: i * 1.1 }}
-              />
-            ))}
-            <Magnetic>
-              <a
-                href={rsvpUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={celebrate}
-                className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-gradient-to-br from-[#E88FAB] to-[#C2577A] px-8 py-4 text-lg font-semibold text-white shadow-[0_5px_0_0_#A9466A,0_14px_28px_-10px_rgba(194,87,122,0.7)] transition-transform active:translate-y-1 active:shadow-[0_2px_0_0_#A9466A]"
-                style={{ fontFamily: 'var(--font-button)' }}
-              >
-                {/* Brillo que cruza el botón cada pocos segundos */}
-                <motion.span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/55 to-transparent"
-                  animate={{ x: ['0%', '520%'] }}
-                  transition={{ duration: 1.3, repeat: Infinity, repeatDelay: 2.2, ease: 'easeInOut' }}
-                />
-                <motion.span
-                  className="relative"
-                  animate={{ rotate: [0, -14, 10, -6, 0] }}
-                  transition={{ duration: 0.9, repeat: Infinity, repeatDelay: 2.6 }}
-                >
-                  <MessageCircle className="size-6" />
-                </motion.span>
-                <span className="relative">
-                  <RollText text="¡Sí, ahí estaré!" />
-                </span>
-              </a>
-            </Magnetic>
-          </div>
+          <RSVPLetter buildMessage={buildRsvpText} phone={config.whatsapp.phoneNumber} />
 
-          <p className="mt-6 text-xs text-[#947871]">Se abrirá WhatsApp con tu mensaje listo ✨</p>
+          <p className="mt-6 text-xs text-[#947871]">Tu respuesta llegará por WhatsApp a los papitos ✨</p>
         </Card>
       </Reveal>
       </StackCard>
