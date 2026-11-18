@@ -33,11 +33,11 @@ export const INVITATION_CONFIG: InvitationConfig = {
   },
 
   location: {
-    venueName: 'Triberca de Covicorti',
-    address: 'Covicorti',
+    venueName: 'Triberca Natasha',
+    address: 'Natasha',
     city: '',
     // Enlace directo a Google Maps para el botón "Cómo llegar"
-    googleMapsUrl: 'https://maps.app.goo.gl/21LhZeNvCPTQEx1A8',
+    googleMapsUrl: 'https://maps.app.goo.gl/ziyp3Tk8fuZe2xmu6',
   },
 
   dressCode: {
